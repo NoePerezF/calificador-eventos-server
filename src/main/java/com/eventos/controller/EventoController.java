@@ -25,7 +25,10 @@ public class EventoController {
     }
     @PostMapping("/api/nuevoevento")
     public String nuevoEvento(@RequestBody Evento ev) throws JsonProcessingException{
-        evento = new Evento(ev.getNombre());
+        evento = ev;
+        evento.setDificultad(new ArrayList<>());
+        evento.setEjecucion(new ArrayList<>());
+        evento.setImpresionArtistica(new ArrayList<>());
         return(maper.writeValueAsString(new MensajeReponse(1,"Evento creado con exito")) );
     }
     @PostMapping("/api/registrojuez")

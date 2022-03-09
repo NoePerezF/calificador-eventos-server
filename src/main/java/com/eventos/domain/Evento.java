@@ -13,13 +13,7 @@ public class Evento implements Serializable{
     private List<Juez> impresionArtistica;
     private List<Juez> dificultad;
 
-    public Evento(String nombre) {
-        this.nombre = nombre;
-        this.ejecucion = new ArrayList<>();
-        this.impresionArtistica = new ArrayList<>();
-        this.dificultad = new ArrayList<>();
-    }
-        
+      
 
     public String getNombre() {
         return nombre;

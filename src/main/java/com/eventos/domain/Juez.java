@@ -14,11 +14,7 @@ public class Juez implements Serializable{
     @Nullable
     private double calificacion;
 
-    public Juez(String id, String nombre, int tipo) {
-        this.id = id;
-        this.nombre = nombre;
-        this.tipo = tipo;
-    }
+    
 
     public int getTipo() {
         return tipo;
