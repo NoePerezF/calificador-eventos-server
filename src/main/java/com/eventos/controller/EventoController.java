@@ -133,6 +133,11 @@ public class EventoController {
         
         return(maper.writeValueAsString(new MensajeReponse(2,"Error no se pudo subir la calificacion")) );
     }
+    @GetMapping("/api/terminarevento")
+    public String terminarEvento(){
+        this.evento = null;
+        return(maper.writeValueAsString(new MensajeReponse(1, "Evento terminado co nexito")));
+    }
     
     
     
