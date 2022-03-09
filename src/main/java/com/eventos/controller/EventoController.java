@@ -35,7 +35,7 @@ public class EventoController {
     public String registroJuez(@RequestBody Juez juez) throws JsonProcessingException{
         if(evento != null){
             if(juez.getTipo() == 1){
-                if(evento.getEjecucion().size() >= NUMERO_JUECES){
+                if(evento.getEjecucion().size() <= NUMERO_JUECES){
                     List<Juez> jueces = evento.getEjecucion();
                     juez.setId(""+(evento.getEjecucion().size()+1));
                     juez.setNombre("Juez" +(evento.getEjecucion().size()+1));
@@ -45,7 +45,7 @@ public class EventoController {
                 return(maper.writeValueAsString(new MensajeReponse(2,"Error numero de jueces de ejecucion compelto")) );
             }
             if(juez.getTipo() == 2){
-                if(evento.getImpresionArtistica().size() >= NUMERO_JUECES){
+                if(evento.getImpresionArtistica().size() <= NUMERO_JUECES){
                     List<Juez> jueces = evento.getImpresionArtistica();
                     juez.setId(""+(evento.getEjecucion().size()+1));
                     juez.setNombre("Juez" +(evento.getEjecucion().size()+1));
@@ -55,7 +55,7 @@ public class EventoController {
                 return(maper.writeValueAsString(new MensajeReponse(2,"Error numero de jueces de impresion artistica compelto")) );
             }
             if(juez.getTipo() == 3){
-                if(evento.getDificultad().size() >= NUMERO_JUECES){
+                if(evento.getDificultad().size() <= NUMERO_JUECES){
                     List<Juez> jueces = evento.getDificultad();
                     juez.setId(""+(evento.getEjecucion().size()+1));
                     juez.setNombre("Juez" +(evento.getEjecucion().size()+1));
