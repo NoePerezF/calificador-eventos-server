@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,11 @@ public class EventoController {
     private ObjectMapper maper = new ObjectMapper();
     private Evento evento = null;
     private SimpMessagingTemplate template;
+    
+    @Autowired
+        public EventoController(SimpMessagingTemplate template) {
+            this.template = template;
+        }
     
     @GetMapping("/api/ping")
     public String ping() throws JsonProcessingException{
