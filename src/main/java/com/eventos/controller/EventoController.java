@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ public class EventoController {
     private final int NUMERO_JUECES = 5;
     private ObjectMapper maper = new ObjectMapper();
     private Evento evento = null;
+    private SimpMessagingTemplate template;
     
     @GetMapping("/api/ping")
     public String ping() throws JsonProcessingException{
@@ -67,6 +69,7 @@ public class EventoController {
                 return(maper.writeValueAsString(new MensajeReponse(2,"Error numero de jueces de dificultad compelto")) );
             }
         }
+        this.template.convertAndSend("/call/message",this.evento);
          return(maper.writeValueAsString(new MensajeReponse(2,"Error no hay evento en curso")) );
     }
     
