@@ -44,6 +44,7 @@ public class EventoController {
                     juez.setId(""+(evento.getEjecucion().size()+1));
                     juez.setNombre("Juez" +(evento.getEjecucion().size()+1));
                     jueces.add(juez);
+                    this.template.convertAndSend("/call/message",this.evento);
                     return(maper.writeValueAsString(juez) );
                 }
                 return(maper.writeValueAsString(new MensajeReponse(2,"Error numero de jueces de ejecucion compelto")) );
@@ -54,6 +55,7 @@ public class EventoController {
                     juez.setId(""+(evento.getEjecucion().size()+1));
                     juez.setNombre("Juez" +(evento.getEjecucion().size()+1));
                     jueces.add(juez);
+                    this.template.convertAndSend("/call/message",this.evento);
                     return(maper.writeValueAsString(juez) );
                 }
                 return(maper.writeValueAsString(new MensajeReponse(2,"Error numero de jueces de impresion artistica compelto")) );
@@ -64,12 +66,13 @@ public class EventoController {
                     juez.setId(""+(evento.getEjecucion().size()+1));
                     juez.setNombre("Juez" +(evento.getEjecucion().size()+1));
                     jueces.add(juez);
+                    this.template.convertAndSend("/call/message",this.evento);
                     return(maper.writeValueAsString(juez) );
                 }
                 return(maper.writeValueAsString(new MensajeReponse(2,"Error numero de jueces de dificultad compelto")) );
             }
         }
-        this.template.convertAndSend("/call/message",this.evento);
+        
          return(maper.writeValueAsString(new MensajeReponse(2,"Error no hay evento en curso")) );
     }
     
@@ -94,6 +97,7 @@ public class EventoController {
                     return(maper.writeValueAsString(new MensajeReponse(2,"Error no se pudo subir la calificacion")) );
                 }
                 evento.setEjecucion(lista);
+                this.template.convertAndSend("/call/message",this.evento);
                 return(maper.writeValueAsString(new MensajeReponse(1,"Calificacion enviada con exito")) );
          
             }
@@ -113,6 +117,7 @@ public class EventoController {
                     return(maper.writeValueAsString(new MensajeReponse(2,"Error no se pudo subir la calificacion")) );
                 }
                 evento.setImpresionArtistica(lista);
+                this.template.convertAndSend("/call/message",this.evento);
                 return(maper.writeValueAsString(new MensajeReponse(1,"Calificacion enviada con exito")) );
          
             }
@@ -132,6 +137,7 @@ public class EventoController {
                     return(maper.writeValueAsString(new MensajeReponse(2,"Error no se pudo subir la calificacion")) );
                 }
                 evento.setDificultad(lista);
+                this.template.convertAndSend("/call/message",this.evento);
                 return(maper.writeValueAsString(new MensajeReponse(1,"Calificacion enviada con exito")) );
          
             }
