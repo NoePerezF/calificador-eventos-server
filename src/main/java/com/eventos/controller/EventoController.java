@@ -47,8 +47,7 @@ public class EventoController {
             if(juez.getTipo() == 1){
                 if(evento.getEjecucion().size() < NUMERO_JUECES){
                     List<Juez> jueces = evento.getEjecucion();
-                    juez.setId(""+(evento.getEjecucion().size()+1));
-                    juez.setNombre("Juez" +(evento.getEjecucion().size()+1));
+                    juez.setNombre("Juez " + juez.getId());
                     jueces.add(juez);
                     this.template.convertAndSend("/call/message",this.evento);
                     return(maper.writeValueAsString(juez) );
@@ -59,7 +58,7 @@ public class EventoController {
                 if(evento.getImpresionArtistica().size() < NUMERO_JUECES){
                     List<Juez> jueces = evento.getImpresionArtistica();
                     juez.setId(""+(evento.getImpresionArtistica().size()+1));
-                    juez.setNombre("Juez" +(evento.getImpresionArtistica().size()+1));
+                    juez.setNombre("Juez " + juez.getId());
                     jueces.add(juez);
                     this.template.convertAndSend("/call/message",this.evento);
                     return(maper.writeValueAsString(juez) );
@@ -70,7 +69,7 @@ public class EventoController {
                 if(evento.getDificultad().size() < NUMERO_JUECES){
                     List<Juez> jueces = evento.getDificultad();
                     juez.setId(""+(evento.getDificultad().size()+1));
-                    juez.setNombre("Juez" +(evento.getDificultad().size()+1));
+                    juez.setNombre("Juez " + juez.getId());
                     jueces.add(juez);
                     this.template.convertAndSend("/call/message",this.evento);
                     return(maper.writeValueAsString(juez) );

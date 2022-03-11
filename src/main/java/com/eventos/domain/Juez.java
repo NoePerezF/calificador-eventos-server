@@ -2,7 +2,7 @@
 package com.eventos.domain;
 
 import java.io.Serializable;
-import org.springframework.lang.Nullable;
+
 
 
 
@@ -11,7 +11,7 @@ public class Juez implements Serializable{
     private String id;
     private String nombre;
     private int tipo; //1 Ejecucion; 2 Impresion artistica; 3 Dificultad
-    @Nullable
+
     private double calificacion;
 
     
