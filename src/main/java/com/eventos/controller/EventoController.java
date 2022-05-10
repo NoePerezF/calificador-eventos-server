@@ -158,6 +158,7 @@ public class EventoController {
                     aux.setCalificacion(calificacionJuez);
                     evento.setEjecucion(e);
                     repo.save(evento);
+                    this.template.convertAndSend("/call/message",evento);
                     return(maper.writeValueAsString(new MensajeReponse(1,"Calificacion enviada con exito")) );
                 }
                 if(juez.getTipo() == 2){
@@ -173,6 +174,7 @@ public class EventoController {
                     aux.setCalificacion(calificacionJuez);
                     evento.setImpresionArtistica(e);
                     repo.save(evento);
+                    this.template.convertAndSend("/call/message",evento);
                     return(maper.writeValueAsString(new MensajeReponse(1,"Calificacion enviada con exito")) );
                 }
                 if(juez.getTipo() == 3){
@@ -188,6 +190,7 @@ public class EventoController {
                     aux.setCalificacion(calificacionJuez);
                     evento.setDificultad(e);
                     repo.save(evento);
+                    this.template.convertAndSend("/call/message",evento);
                     return(maper.writeValueAsString(new MensajeReponse(1,"Calificacion enviada con exito")) );
                 }
                 //this.template.convertAndSend("/call/message",evento);
