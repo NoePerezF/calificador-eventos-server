@@ -1,0 +1,27 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL92Dialect</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.username">hjqmmloezyyfor</property>
+        <property name="hibernate.connection.password">b14080cce88ae0d23dc3e8a5cd3aa5ef77b56d960d06cedfb0884f9e6ceb4caf</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://ec2-44-194-4-127.compute-1.amazonaws.com/db2e7jgg4raor6</property>
+
+
+
+        <property name="connection_pool_size">1</property>
+
+        <property name="hbm2ddl.auto">create</property>
+
+        <property name="show_sql">true</property>
+
+        <property name="hbm2ddl.auto">create</property>
+
+       <mapping class="com.eventos.domain"/>
+
+    </session-factory>
+</hibernate-configuration>
+
