@@ -204,9 +204,30 @@ public class EventoController {
         return(maper.writeValueAsString(new MensajeReponse(1,"No hay evento en curso")) );
     }
     @GetMapping("/api/terminarevento")
-    public String terminarEvento(@RequestBody Evento evento) throws JsonProcessingException{
-        evento = null;
+    public String terminarEvento(@RequestBody Evento e) throws JsonProcessingException{
+        if(repo.findByEstado(2).isEmpty()){
+            return(maper.writeValueAsString(new MensajeReponse(2,"El evento no esta activo")) );
+        }
+        if(repo.findById(e.getId()).isEmpty()){
+            return(maper.writeValueAsString(new MensajeReponse(2,"No existe el evento")) );
+        }
+        e = repo.findById(e.getId()).get();
+        e.setEstado(3);
+        repo.save(e);
         return(maper.writeValueAsString(new MensajeReponse(1, "Evento terminado co nexito")));
+    }
+    @GetMapping("/api/cancelarevento")
+    public String cancelarEvento(@RequestBody Evento e) throws JsonProcessingException{
+        if(repo.findByEstado(2).isEmpty()){
+            return(maper.writeValueAsString(new MensajeReponse(2,"El evento no esta activo")) );
+        }
+        if(repo.findById(e.getId()).isEmpty()){
+            return(maper.writeValueAsString(new MensajeReponse(2,"No existe el evento")) );
+        }
+        e = repo.findById(e.getId()).get();
+        e.setEstado(4);
+        repo.save(e);
+        return(maper.writeValueAsString(new MensajeReponse(1, "Evento cancelado co nexito")));
     }
     @GetMapping("/api/eventos")
     public String getEventos() throws JsonProcessingException{
