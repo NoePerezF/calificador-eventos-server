@@ -203,7 +203,7 @@ public class EventoController {
         }
         return(maper.writeValueAsString(new MensajeReponse(1,"No hay evento en curso")) );
     }
-    @GetMapping("/api/terminarevento")
+    @PostMapping("/api/terminarevento")
     public String terminarEvento(@RequestBody Evento e) throws JsonProcessingException{
         if(repo.findByEstado(2).isEmpty()){
             return(maper.writeValueAsString(new MensajeReponse(2,"El evento no esta activo")) );
@@ -216,7 +216,7 @@ public class EventoController {
         repo.save(e);
         return(maper.writeValueAsString(new MensajeReponse(1, "Evento terminado co nexito")));
     }
-    @GetMapping("/api/cancelarevento")
+    @PostMapping("/api/cancelarevento")
     public String cancelarEvento(@RequestBody Evento e) throws JsonProcessingException{
         if(repo.findByEstado(2).isEmpty()){
             return(maper.writeValueAsString(new MensajeReponse(2,"El evento no esta activo")) );
