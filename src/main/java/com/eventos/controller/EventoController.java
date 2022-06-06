@@ -140,7 +140,7 @@ public class EventoController {
         try {
                 
            repoCalificacion.save(calificacion);
-            
+           template.convertAndSend("/call/message", maper.writeValueAsString(calificacion.getCompetidor()));
         } catch (Exception e) {
             return(maper.writeValueAsString(new MensajeReponse(2,"Error no se pudo subir la calificacion")) );
         }
