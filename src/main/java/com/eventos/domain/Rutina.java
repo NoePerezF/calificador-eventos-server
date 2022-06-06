@@ -38,6 +38,6 @@ public class Rutina implements Serializable{
     @ManyToOne
     @JoinColumn(name = "evento_id")
     @JsonIgnore
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Evento evento;
 }
