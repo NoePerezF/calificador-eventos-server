@@ -1,5 +1,6 @@
 package com.eventos.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -35,5 +36,6 @@ public class Rutina implements Serializable{
     
     @ManyToOne
     @JoinColumn(name = "evento_id")
+    @JsonIgnore
     private Evento evento;
 }
