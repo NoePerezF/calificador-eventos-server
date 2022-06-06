@@ -1,6 +1,7 @@
 package com.eventos.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -22,6 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(value = "rutina", allowSetters = true)
 public class Competidor implements Serializable{
     
     @Id
@@ -35,7 +37,6 @@ public class Competidor implements Serializable{
     
     @ManyToOne
     @JoinColumn(name = "rutina_id")
-    @JsonIgnore
     private Rutina rutina;
     
     @NotNull
