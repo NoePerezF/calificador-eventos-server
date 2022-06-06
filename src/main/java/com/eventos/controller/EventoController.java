@@ -1,16 +1,19 @@
 
 package com.eventos.controller;
 
+import com.eventos.domain.Calificacion;
+import com.eventos.domain.Competidor;
 import com.eventos.domain.Evento;
-import com.eventos.domain.EventoJuezDificultad;
-import com.eventos.domain.EventoJuezEjecucion;
-import com.eventos.domain.EventoJuezImpresionArtistica;
+
 import com.eventos.domain.Juez;
+import com.eventos.domain.Rutina;
+import com.eventos.repository.CalificacionRepository;
+import com.eventos.repository.CompetidorRepository;
 import com.eventos.repository.EventoRepository;
 import com.eventos.util.MensajeReponse;
 import com.eventos.repository.JuezRepository;
+import com.eventos.repository.RutinaRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,16 @@ public class EventoController {
     private JuezRepository repoJuez;
     
     @Autowired
+    private CalificacionRepository repoCalificacion;
+    
+    @Autowired
+    private CompetidorRepository repoCompetidos;
+    
+    @Autowired
+    private RutinaRepository repoRutina;
+    
+    
+    @Autowired
         public EventoController(SimpMessagingTemplate template) {
             this.template = template;
         }
@@ -47,188 +60,93 @@ public class EventoController {
     @PostMapping("/api/nuevoevento")
     public String nuevoEvento(@RequestBody Evento evento) throws JsonProcessingException{
         evento.setEstado(1);
-        evento.setDificultad(new ArrayList<>());
-        evento.setEjecucion(new ArrayList<>());
-        evento.setImpresionArtistica(new ArrayList<>());
-        repo.save(evento);
+        evento.setRutinas(new ArrayList<>());
+        try {
+            repo.save(evento);
+        } catch (Exception e) {
+            return(maper.writeValueAsString(new MensajeReponse(2,"Error al registrar evento")) );
+        }
+        
         return(maper.writeValueAsString(new MensajeReponse(1,"Evento creado con exito")) );
     }
+    @PostMapping("/api/nuevaRutina")
+    public String nuevaRutina(@RequestBody Rutina rutina) throws JsonProcessingException{
+        if(repo.findById(rutina.getEvento().getId()).isEmpty()){
+            return(maper.writeValueAsString(new MensajeReponse(2,"No existe el evento")) );
+        }
+        rutina.setEvento(repo.findById(rutina.getEvento().getId()).get());
+        rutina.setCompetidores(new ArrayList<>());
+        try {
+            repoRutina.save(rutina);
+        } catch (Exception e) {
+            return(maper.writeValueAsString(new MensajeReponse(2,"Error al crear la rutina")) );
+        }
+        return(maper.writeValueAsString(new MensajeReponse(1,"Rutina registrada con exito")) );
+    }
+    @PostMapping("/api/nuevoCompetidor")
+    public String nuevoCompetidor(@RequestBody Competidor competidor) throws JsonProcessingException{
+        if(repoRutina.findById(competidor.getRutina().getId()).isEmpty()){
+            return(maper.writeValueAsString(new MensajeReponse(2,"No existe la rutina")) );
+        }
+        competidor.setRutina(repoRutina.findById(competidor.getRutina().getId()).get());
+        competidor.setEstado(1);
+        competidor.setCalificaciones(new ArrayList<>());
+        try {
+            repoCompetidos.save(competidor);
+        } catch (Exception e) {
+            return(maper.writeValueAsString(new MensajeReponse(2,"Error al registrar competidor")) );
+        }
+        return(maper.writeValueAsString(new MensajeReponse(1,"Competidor registrado con exito")) );
+    }
     @PostMapping("/api/registrojuez")
-    public String registroJuez(@RequestBody String str) throws JsonProcessingException{
-        
-        JsonNode node = maper.readTree(str);
-        Evento evento = maper.convertValue(node.get("evento"), Evento.class);
-        Juez juez = maper.convertValue(node.get("juez"), Juez.class);
-        
-        if(repoJuez.findByTipoAndNumero(juez.getTipo(), juez.getNumero()).isEmpty())
-            return(maper.writeValueAsString(new MensajeReponse(2,"Error no se encuentra el Juez")) );
+    public String registroJuez(@RequestBody Juez juez) throws JsonProcessingException{
+        if(repoJuez.findByTipoAndNumero(juez.getTipo(), juez.getNumero()).isEmpty()){
+            return(maper.writeValueAsString(new MensajeReponse(2,"No existe el juez")) );
+        }
         juez = repoJuez.findByTipoAndNumero(juez.getTipo(), juez.getNumero()).get();
-        if(repo.findById(evento.getId()).isEmpty())
-            return(maper.writeValueAsString(new MensajeReponse(2,"Error no se encuentra el evento")) );
-        evento = repo.findById(evento.getId()).get();
-        
-        if(evento != null){
-            if(juez.getTipo() == 1){
-                if(evento.getEjecucion().size() < NUMERO_JUECES){
-                    List<EventoJuezEjecucion> jueces = evento.getEjecucion();
-                    juez.setNombre("Juez " + juez.getNumero());
-                    EventoJuezEjecucion e = new EventoJuezEjecucion();
-                    for(EventoJuezEjecucion ej : jueces){
-                        if(ej.getJuez().getId() == juez.getId()){
-                            return(maper.writeValueAsString(new MensajeReponse(2,"Ya hay un juez con esta categoria y numero registrado en el evento")) );
-                        }
-                    }
-                    e.setJuez(juez);
-                    e.setEvento(evento);
-                    jueces.add(e);
-                    evento.setEjecucion(jueces);
-                    repo.save(evento);
-                    this.template.convertAndSend("/call/message",evento);
-                    return(maper.writeValueAsString(juez) );
-                }
-                return(maper.writeValueAsString(new MensajeReponse(2,"Error numero de jueces de ejecucion compelto")) );
+        if(repoCompetidos.findByEstado(2).isEmpty()){
+            return(maper.writeValueAsString(new MensajeReponse(2,"No hay competidor activo")) );
+        }
+        Competidor competidor = repoCompetidos.findByEstado(2).get(0);
+        List<Calificacion> calificaciones = competidor.getCalificaciones();
+        for(Calificacion c : calificaciones){
+            if(c.getJuez().getId() == juez.getId()){
+               return(maper.writeValueAsString(new MensajeReponse(2,"Ya se registro este numero de juez")) ); 
             }
-            if(juez.getTipo() == 2){
-                if(evento.getImpresionArtistica().size() < NUMERO_JUECES){
-                   List<EventoJuezImpresionArtistica> jueces = evento.getImpresionArtistica();
-                    juez.setNombre("Juez " + juez.getNumero());
-                    EventoJuezImpresionArtistica e = new EventoJuezImpresionArtistica();
-                    for(EventoJuezImpresionArtistica ej : jueces){
-                        if(ej.getJuez().getId() == juez.getId()){
-                            return(maper.writeValueAsString(new MensajeReponse(2,"Ya hay un juez con esta categoria y numero registrado en el evento")) );
-                        }
-                    }
-                    e.setJuez(juez);
-                    e.setEvento(evento);
-                    jueces.add(e);
-                    evento.setImpresionArtistica(jueces);
-                    repo.save(evento);
-                    this.template.convertAndSend("/call/message",evento);
-                    return(maper.writeValueAsString(juez) );
-                }
-                return(maper.writeValueAsString(new MensajeReponse(2,"Error numero de jueces de impresion artistica compelto")) );
-            }
-            if(juez.getTipo() == 3){
-                List<EventoJuezDificultad> jueces = evento.getDificultad();
-                    juez.setNombre("Juez " + juez.getNumero());
-                    EventoJuezDificultad e = new EventoJuezDificultad();
-                    for(EventoJuezDificultad ej : jueces){
-                        if(ej.getJuez().getId() == juez.getId()){
-                            return(maper.writeValueAsString(new MensajeReponse(2,"Ya hay un juez con esta categoria y numero registrado en el evento")) );
-                        }
-                    }
-                    e.setJuez(juez);
-                    e.setEvento(evento);
-                    jueces.add(e);
-                    evento.setDificultad(jueces);
-                    repo.save(evento);
-                    this.template.convertAndSend("/call/message",evento);
-                    return(maper.writeValueAsString(juez) );
-                }
-                return(maper.writeValueAsString(new MensajeReponse(2,"Error numero de jueces de dificultad compelto")) );
-            }
-        
-         return(maper.writeValueAsString(new MensajeReponse(2,"Error no hay evento en curso")) );
+        }
+        Calificacion calificacion = new Calificacion();
+        calificacion.setCompetidor(competidor);
+        calificacion.setJuez(juez);
+        try {
+            calificacion = repoCalificacion.save(calificacion);
+        } catch (Exception e) {
+            return(maper.writeValueAsString(new MensajeReponse(2,"Error al registrar Juez")) ); 
+        }
+        return maper.writeValueAsString(calificacion);
     }
     
     @PostMapping("/api/calificar")
-    public String calificar(@RequestBody String str) throws JsonProcessingException{
+    public String calificar(@RequestBody Calificacion calificacion) throws JsonProcessingException{
         
-        JsonNode node = maper.readTree(str);
-        Evento evento = maper.convertValue(node.get("evento"), Evento.class);
-        Juez juez = maper.convertValue(node.get("juez"), Juez.class);
-        Double calificacionJuez = maper.convertValue(node.get("calificacion"), Double.class);
-        if(repoJuez.findByTipoAndNumero(juez.getTipo(), juez.getNumero()).isEmpty())
-            return(maper.writeValueAsString(new MensajeReponse(2,"Error no se encuentra el Juez")) );
-        juez = repoJuez.findByTipoAndNumero(juez.getTipo(), juez.getNumero()).get();
-        if(repo.findById(evento.getId()).isEmpty())
-            return(maper.writeValueAsString(new MensajeReponse(2,"Error no se encuentra el evento")) );
-        evento = repo.findById(evento.getId()).get();
+        if(!repoCompetidos.existsById(calificacion.getCompetidor().getId())){
+            return(maper.writeValueAsString(new MensajeReponse(2,"No se encontro el competidor")) );
+        }
+        calificacion.setCompetidor(repoCompetidos.findById(calificacion.getCompetidor().getId()).get());
+        
+        if(!repoJuez.existsById(calificacion.getJuez().getId())){
+            return(maper.writeValueAsString(new MensajeReponse(2,"No se encontro el Juez")) );
+        }
+        calificacion.setJuez(repoJuez.findById(calificacion.getJuez().getId()).get());
         try {
-                if(juez.getTipo() == 1){
-                    EventoJuezEjecucion aux = null;
-                    List<EventoJuezEjecucion> e = evento.getEjecucion();
-                    for(EventoJuezEjecucion ej : e){
-                        if(ej.getJuez().getId() == juez.getId()){
-                            aux = ej;
-                        }
-                    }
-                    if(aux == null)
-                        return(maper.writeValueAsString(new MensajeReponse(2,"El juez no esta registrado en el evento")) );
-                    aux.setCalificacion(calificacionJuez);
-                    evento.setEjecucion(e);
-                    repo.save(evento);
-                    this.template.convertAndSend("/call/message",evento);
-                    return(maper.writeValueAsString(new MensajeReponse(1,"Calificacion enviada con exito")) );
-                }
-                if(juez.getTipo() == 2){
-                    EventoJuezImpresionArtistica aux = null;
-                    List<EventoJuezImpresionArtistica> e = evento.getImpresionArtistica();
-                    for(EventoJuezImpresionArtistica ej : e){
-                        if(ej.getJuez().getId() == juez.getId()){
-                            aux = ej;
-                        }
-                    }
-                    if(aux == null)
-                        return(maper.writeValueAsString(new MensajeReponse(2,"El juez no esta registrado en el evento")) );
-                    aux.setCalificacion(calificacionJuez);
-                    evento.setImpresionArtistica(e);
-                    repo.save(evento);
-                    this.template.convertAndSend("/call/message",evento);
-                    return(maper.writeValueAsString(new MensajeReponse(1,"Calificacion enviada con exito")) );
-                }
-                if(juez.getTipo() == 3){
-                    EventoJuezDificultad aux = null;
-                    List<EventoJuezDificultad> e = evento.getDificultad();
-                    for(EventoJuezDificultad ej : e){
-                        if(ej.getJuez().getId() == juez.getId()){
-                            aux = ej;
-                        }
-                    }
-                    if(aux == null)
-                        return(maper.writeValueAsString(new MensajeReponse(2,"El juez no esta registrado en el evento")) );
-                    aux.setCalificacion(calificacionJuez);
-                    evento.setDificultad(e);
-                    repo.save(evento);
-                    this.template.convertAndSend("/call/message",evento);
-                    return(maper.writeValueAsString(new MensajeReponse(1,"Calificacion enviada con exito")) );
-                }
-                //this.template.convertAndSend("/call/message",evento);
-                //return(maper.writeValueAsString(new MensajeReponse(1,"Calificacion enviada con exito")) );
-           
-            
+                
+           repoCalificacion.save(calificacion);
             
         } catch (Exception e) {
             return(maper.writeValueAsString(new MensajeReponse(2,"Error no se pudo subir la calificacion")) );
         }
-        return(maper.writeValueAsString(new MensajeReponse(1,"No hay evento en curso")) );
+        return(maper.writeValueAsString(new MensajeReponse(1,"Calificaciom emviada con exito")) );
     }
-    @PostMapping("/api/terminarevento")
-    public String terminarEvento(@RequestBody Evento e) throws JsonProcessingException{
-        if(repo.findByEstado(2).isEmpty()){
-            return(maper.writeValueAsString(new MensajeReponse(2,"El evento no esta activo")) );
-        }
-        if(repo.findById(e.getId()).isEmpty()){
-            return(maper.writeValueAsString(new MensajeReponse(2,"No existe el evento")) );
-        }
-        e = repo.findById(e.getId()).get();
-        e.setEstado(3);
-        repo.save(e);
-        return(maper.writeValueAsString(new MensajeReponse(1, "Evento terminado co nexito")));
-    }
-    @PostMapping("/api/cancelarevento")
-    public String cancelarEvento(@RequestBody Evento e) throws JsonProcessingException{
-        if(repo.findByEstado(2).isEmpty()){
-            return(maper.writeValueAsString(new MensajeReponse(2,"El evento no esta activo")) );
-        }
-        if(repo.findById(e.getId()).isEmpty()){
-            return(maper.writeValueAsString(new MensajeReponse(2,"No existe el evento")) );
-        }
-        e = repo.findById(e.getId()).get();
-        e.setEstado(4);
-        repo.save(e);
-        return(maper.writeValueAsString(new MensajeReponse(1, "Evento cancelado co nexito")));
-    }
+    
     @GetMapping("/api/eventos")
     public String getEventos() throws JsonProcessingException{
         return(maper.writeValueAsString(repo.findAll()));
@@ -251,8 +169,85 @@ public class EventoController {
         }
         e = repo.findById(e.getId()).get();
         e.setEstado(2);
+        List<Rutina> rutinas = e.getRutinas();
         repo.save(e);
+        rutinas.get(0).setEstado(2);
+        List<Competidor> competidores = rutinas.get(0).getCompetidores();
+        competidores.get(0).setEstado(2);
+        repoRutina.save(rutinas.get(0));
+        repoCompetidos.save(competidores.get(0));
         return(maper.writeValueAsString(new MensajeReponse(1,"Evento activado con exito")) );
+    }
+    @GetMapping("/api/siguiente")
+    public String siguiente() throws JsonProcessingException{
+         if(repo.findByEstado(2).isEmpty()){
+            return(maper.writeValueAsString(new MensajeReponse(2,"No hay evento activo")) );
+        }
+         Evento evento = repo.findByEstado(2).get();
+         List<Rutina> rutinas = evento.getRutinas();
+         Rutina rutina = null;
+         for(Rutina r : rutinas){
+             if(r.getEstado() == 2){
+                 rutina = r;
+                 break;
+             }
+         }
+         List<Competidor> competidores = rutina.getCompetidores();
+         Competidor competidor = null;
+         for(Competidor c : competidores){
+             if(c.getEstado() == 2){
+                 c.setEstado(3);
+                 repoCompetidos.save(c);
+             }
+             if(c.getEstado() == 1){
+                 c.setEstado(2);
+                 competidor = c;
+                 repoCompetidos.save(c);
+                 break;
+             }
+         }
+         if(competidor != null){
+             return maper.writeValueAsString(competidor);
+         }
+         rutina = null;
+         for(Rutina r : rutinas){
+             if(r.getEstado() == 1){
+                 r.setEstado(2);
+                 rutina = r;
+                 repoRutina.save(r);
+                 break;
+             }
+             if(r.getEstado() == 2){
+                 r.setEstado(3);
+                 repoRutina.save(r);
+             }
+         }
+         if(rutina != null){
+             competidor = rutina.getCompetidores().get(0);
+             competidor.setEstado(2);
+             return maper.writeValueAsString(repoCompetidos.save(competidor));
+         }
+         evento.setEstado(3);
+         repo.save(evento);
+         return(maper.writeValueAsString(new MensajeReponse(2,"Ya no hay rutinas en el evento, se termino automaticamente")) );
+         
+    }
+    @PostMapping("/api/activarcompetidor")
+    public String activarCompetidor(@RequestBody Competidor competidor) throws JsonProcessingException{
+        if(repoCompetidos.findById(competidor.getId()).isEmpty()){
+            return(maper.writeValueAsString(new MensajeReponse(2,"No existe el competidor")) );
+        }
+        if(!repoCompetidos.findByEstado(2).isEmpty()){
+            return(maper.writeValueAsString(new MensajeReponse(2,"Ya hay un competidor siendo calificado actualmente")) );
+        }
+        competidor = repoCompetidos.findById(competidor.getId()).get();
+        try {
+            competidor.setEstado(2);
+            repoCompetidos.save(competidor);
+        } catch (Exception e) {
+            return(maper.writeValueAsString(new MensajeReponse(2,"Error al activar competidor")) );
+        }
+        return(maper.writeValueAsString(new MensajeReponse(1,"Competidor activado con exito")) );
     }
     
 }

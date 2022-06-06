@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,20 +42,9 @@ public class Juez implements Serializable{
     @NotNull
     private int numero;
     
-    @OneToMany(mappedBy = "juez")
+    @OneToMany(mappedBy = "juez",cascade = CascadeType.ALL)
     @JsonIgnore
-    List<EventoJuezEjecucion> ejecucion;
-    
-    @OneToMany(mappedBy = "juez")
-    @JsonIgnore
-    List<EventoJuezImpresionArtistica> impresionArtistica;
-    
-    @OneToMany(mappedBy = "juez")
-    @JsonIgnore
-    List<EventoJuezDificultad> dificultas;
-    
-   
-    
+    private List<Calificacion> calificaciones;
     
     
 }

@@ -43,13 +43,7 @@ public class Evento implements Serializable{
     private int estado; // 1 Creado 2 Activo 3 Terminado 4 Cancelado
     
     @OneToMany(mappedBy = "evento",cascade = CascadeType.ALL)
-    private List<EventoJuezEjecucion> ejecucion;
-    
-    @OneToMany(mappedBy = "evento",cascade = CascadeType.ALL)
-    private List<EventoJuezImpresionArtistica> impresionArtistica;
-    
-    @OneToMany(mappedBy = "evento",cascade = CascadeType.ALL)
-    private List<EventoJuezDificultad> dificultad; 
+    private List<Rutina> rutinas;
   
     
 }
