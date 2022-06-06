@@ -31,6 +31,8 @@ public class Rutina implements Serializable{
     
     private int estado;
     
+    private String nombre;
+    
     @ManyToOne
     @JoinColumn(name = "evento_id")
     private Evento evento;
