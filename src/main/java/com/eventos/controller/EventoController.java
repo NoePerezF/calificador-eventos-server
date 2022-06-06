@@ -75,6 +75,7 @@ public class EventoController {
             return(maper.writeValueAsString(new MensajeReponse(2,"No existe el evento")) );
         }
         rutina.setEvento(repo.findById(rutina.getEvento().getId()).get());
+        rutina.setEstado(1);
         rutina.setCompetidores(new ArrayList<>());
         try {
             repoRutina.save(rutina);
