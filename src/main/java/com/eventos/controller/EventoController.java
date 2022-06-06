@@ -69,7 +69,7 @@ public class EventoController {
         
         return(maper.writeValueAsString(new MensajeReponse(1,"Evento creado con exito")) );
     }
-    @PostMapping("/api/nuevaRutina")
+    @PostMapping("/api/nuevarutina")
     public String nuevaRutina(@RequestBody Rutina rutina) throws JsonProcessingException{
         if(repo.findById(rutina.getEvento().getId()).isEmpty()){
             return(maper.writeValueAsString(new MensajeReponse(2,"No existe el evento")) );
@@ -83,7 +83,7 @@ public class EventoController {
         }
         return(maper.writeValueAsString(new MensajeReponse(1,"Rutina registrada con exito")) );
     }
-    @PostMapping("/api/nuevoCompetidor")
+    @PostMapping("/api/nuevocompetidor")
     public String nuevoCompetidor(@RequestBody Competidor competidor) throws JsonProcessingException{
         if(repoRutina.findById(competidor.getRutina().getId()).isEmpty()){
             return(maper.writeValueAsString(new MensajeReponse(2,"No existe la rutina")) );
