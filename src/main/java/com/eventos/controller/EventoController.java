@@ -249,5 +249,12 @@ public class EventoController {
         }
         return(maper.writeValueAsString(new MensajeReponse(1,"Competidor activado con exito")) );
     }
+    @PostMapping("/api/evento")
+    public String getEvento(@RequestBody Evento evento) throws JsonProcessingException{
+        if(repo.findById(evento.getId()).isEmpty()){
+            return(maper.writeValueAsString(new MensajeReponse(2,"Error no existe el evento")) );
+        }
+        return maper.writeValueAsString(repo.findById(evento.getId()).get());
+    }
     
 }
