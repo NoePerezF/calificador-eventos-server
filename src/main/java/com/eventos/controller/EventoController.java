@@ -200,6 +200,9 @@ public class EventoController {
                  c.setEstado(3);
                  repoCompetidos.save(c);
              }
+             
+         }
+         for(Competidor c : competidores){
              if(c.getEstado() == 1){
                  c.setEstado(2);
                  competidor = c;
@@ -212,15 +215,18 @@ public class EventoController {
          }
          rutina = null;
          for(Rutina r : rutinas){
+             
+             if(r.getEstado() == 2){
+                 r.setEstado(3);
+                 repoRutina.save(r);
+             }
+         }
+         for(Rutina r : rutinas){
              if(r.getEstado() == 1){
                  r.setEstado(2);
                  rutina = r;
                  repoRutina.save(r);
                  break;
-             }
-             if(r.getEstado() == 2){
-                 r.setEstado(3);
-                 repoRutina.save(r);
              }
          }
          if(rutina != null){
