@@ -13,6 +13,7 @@ import com.eventos.repository.EventoRepository;
 import com.eventos.util.MensajeReponse;
 import com.eventos.repository.JuezRepository;
 import com.eventos.repository.RutinaRepository;
+import com.eventos.util.RegistroResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
@@ -123,7 +124,12 @@ public class EventoController {
         } catch (Exception e) {
             return(maper.writeValueAsString(new MensajeReponse(2,"Error al registrar Juez")) ); 
         }
-        return maper.writeValueAsString(calificacion);
+        template.convertAndSend("/call/message", competidor);
+        RegistroResponse res = new RegistroResponse();
+        res.setCompetidor(competidor);
+        res.setRutina(competidor.getRutina());
+        res.setJuez(juez);
+        return maper.writeValueAsString(res);
     }
     
     @PostMapping("/api/calificar")
@@ -141,7 +147,7 @@ public class EventoController {
         try {
                 
            repoCalificacion.save(calificacion);
-           template.convertAndSend("/call/message", maper.writeValueAsString(calificacion.getCompetidor()));
+           template.convertAndSend("/call/message", calificacion.getCompetidor());
         } catch (Exception e) {
             return(maper.writeValueAsString(new MensajeReponse(2,"Error no se pudo subir la calificacion")) );
         }
