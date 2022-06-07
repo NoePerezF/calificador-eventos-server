@@ -102,6 +102,7 @@ public class EventoController {
     }
     @PostMapping("/api/registrojuez")
     public String registroJuez(@RequestBody Juez juez) throws JsonProcessingException{
+        
         if(repoJuez.findByTipoAndNumero(juez.getTipo(), juez.getNumero()).isEmpty()){
             return(maper.writeValueAsString(new MensajeReponse(2,"No existe el juez")) );
         }
@@ -109,6 +110,15 @@ public class EventoController {
         if(repoCompetidos.findByEstado(2).isEmpty()){
             return(maper.writeValueAsString(new MensajeReponse(2,"No hay competidor activo")) );
         }
+        Evento evento = repo.findByEstado(2).get();
+         List<Rutina> rutinas = evento.getRutinas();
+         Rutina rutina = null;
+         for(Rutina r : rutinas){
+             if(r.getEstado() == 2){
+                 rutina = r;
+                 break;
+             }
+         }
         Competidor competidor = repoCompetidos.findByEstado(2).get(0);
         List<Calificacion> calificaciones = competidor.getCalificaciones();
         for(Calificacion c : calificaciones){
@@ -126,9 +136,9 @@ public class EventoController {
         }
         template.convertAndSend("/call/message", competidor);
         RegistroResponse res = new RegistroResponse();
+        res.setCalificacion(calificacion);
         res.setCompetidor(competidor);
-        res.setRutina(competidor.getRutina());
-        res.setJuez(juez);
+        res.setRutina(rutina);
         return maper.writeValueAsString(res);
     }
     
