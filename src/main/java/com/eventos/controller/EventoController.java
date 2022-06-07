@@ -145,18 +145,10 @@ public class EventoController {
     @PostMapping("/api/calificar")
     public String calificar(@RequestBody Calificacion calificacion) throws JsonProcessingException{
         
-        if(!repoCompetidos.existsById(calificacion.getCompetidor().getId())){
-            return(maper.writeValueAsString(new MensajeReponse(2,"No se encontro el competidor")) );
-        }
-        calificacion.setCompetidor(repoCompetidos.findById(calificacion.getCompetidor().getId()).get());
-        
-        if(!repoJuez.existsById(calificacion.getJuez().getId())){
-            return(maper.writeValueAsString(new MensajeReponse(2,"No se encontro el Juez")) );
-        }
-        calificacion.setJuez(repoJuez.findById(calificacion.getJuez().getId()).get());
         try {
-                
-           repoCalificacion.save(calificacion);
+            Calificacion aux = repoCalificacion.findById(calificacion.getId()).get();
+            aux.setCalificacion(calificacion.getCalificacion());
+           repoCalificacion.save(aux);
            template.convertAndSend("/call/message", calificacion.getCompetidor());
         } catch (Exception e) {
             return(maper.writeValueAsString(new MensajeReponse(2,"Error no se pudo subir la calificacion")) );
