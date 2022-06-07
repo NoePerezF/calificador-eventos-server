@@ -101,7 +101,7 @@ public class EventoController {
         return(maper.writeValueAsString(new MensajeReponse(1,"Competidor registrado con exito")) );
     }
     @PostMapping("/api/registrojuez")
-    public String registroJuez(@RequestBody Juez juez) throws JsonProcessingException{
+    public String registroJuez(@RequestBody Juez juez) throws JsonProcessingException, InterruptedException{
         
         if(repoJuez.findByTipoAndNumero(juez.getTipo(), juez.getNumero()).isEmpty()){
             return(maper.writeValueAsString(new MensajeReponse(2,"No existe el juez")) );
@@ -126,6 +126,7 @@ public class EventoController {
         } catch (Exception e) {
             return(maper.writeValueAsString(new MensajeReponse(2,"Error al registrar Juez")) ); 
         }
+        Thread.sleep(500);
         Evento evento = repo.findByEstado(2).get();
          List<Rutina> rutinas = evento.getRutinas();
          Rutina rutina = null;
