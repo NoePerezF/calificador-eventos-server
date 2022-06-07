@@ -1,6 +1,7 @@
 package com.eventos.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(value = "competidor", allowSetters = true)
 public class Calificacion implements Serializable{
     
     @Id
@@ -32,6 +34,5 @@ public class Calificacion implements Serializable{
 
     @ManyToOne
     @JoinColumn(name = "competidor_id")
-    @JsonIgnore
     private Competidor competidor;
 }
