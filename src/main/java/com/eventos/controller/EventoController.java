@@ -121,22 +121,25 @@ public class EventoController {
         Calificacion calificacion = new Calificacion();
         calificacion.setCompetidor(competidor);
         calificacion.setJuez(juez);
-        try {
-            calificacion = repoCalificacion.save(calificacion);
-        } catch (Exception e) {
-            return(maper.writeValueAsString(new MensajeReponse(2,"Error al registrar Juez")) ); 
-        }
-        Thread.sleep(500);
-        Evento evento = repo.findByEstado(2).get();
-         List<Rutina> rutinas = evento.getRutinas();
          Rutina rutina = null;
+        try {
+            Evento evento = repo.findByEstado(2).get();
+         List<Rutina> rutinas = evento.getRutinas();
+        
          for(Rutina r : rutinas){
              if(r.getEstado() == 2){
                  rutina = r;
                  break;
              }
          }
-        template.convertAndSend("/call/message", evento);
+            calificacion = repoCalificacion.save(calificacion);
+            template.convertAndSend("/call/message", evento);
+        } catch (Exception e) {
+            return(maper.writeValueAsString(new MensajeReponse(2,"Error al registrar Juez")) ); 
+        }
+        
+        
+        
         RegistroResponse res = new RegistroResponse();
         res.setCalificacion(calificacion);
         res.setCompetidor(competidor);
