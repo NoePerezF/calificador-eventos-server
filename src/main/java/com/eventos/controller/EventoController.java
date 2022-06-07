@@ -257,5 +257,22 @@ public class EventoController {
         }
         return maper.writeValueAsString(repo.findById(evento.getId()).get());
     }
+    @PostMapping("/api/terminarevento")
+    public String terminarEvento(@RequestBody Evento evento) throws JsonProcessingException{
+        evento = repo.findById(evento.getId()).get();
+        List<Rutina> rutinas = evento.getRutinas();
+        evento.setEstado(3);
+        repo.save(evento);
+        for(Rutina r : rutinas){
+            List<Competidor> competidores = r.getCompetidores();
+            r.setEstado(3);
+            repoRutina.save(r);
+            for(Competidor c : competidores){
+                c.setEstado(3);
+                repoCompetidos.save(c);
+            }
+        } 
+        return(maper.writeValueAsString(new MensajeReponse(1,"Evento terminado co nexito")) );
+    }
     
 }
