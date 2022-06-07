@@ -134,7 +134,7 @@ public class EventoController {
         } catch (Exception e) {
             return(maper.writeValueAsString(new MensajeReponse(2,"Error al registrar Juez")) ); 
         }
-        template.convertAndSend("/call/message", competidor);
+        template.convertAndSend("/call/message", evento);
         RegistroResponse res = new RegistroResponse();
         res.setCalificacion(calificacion);
         res.setCompetidor(competidor);
@@ -146,10 +146,11 @@ public class EventoController {
     public String calificar(@RequestBody Calificacion calificacion) throws JsonProcessingException{
         
         try {
+            Evento evento = repo.findByEstado(2).get();
             Calificacion aux = repoCalificacion.findById(calificacion.getId()).get();
             aux.setCalificacion(calificacion.getCalificacion());
            repoCalificacion.save(aux);
-           template.convertAndSend("/call/message", calificacion.getCompetidor());
+           template.convertAndSend("/call/message", evento);
         } catch (Exception e) {
             return(maper.writeValueAsString(new MensajeReponse(2,"Error no se pudo subir la calificacion")) );
         }
