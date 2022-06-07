@@ -110,15 +110,7 @@ public class EventoController {
         if(repoCompetidos.findByEstado(2).isEmpty()){
             return(maper.writeValueAsString(new MensajeReponse(2,"No hay competidor activo")) );
         }
-        Evento evento = repo.findByEstado(2).get();
-         List<Rutina> rutinas = evento.getRutinas();
-         Rutina rutina = null;
-         for(Rutina r : rutinas){
-             if(r.getEstado() == 2){
-                 rutina = r;
-                 break;
-             }
-         }
+        
         Competidor competidor = repoCompetidos.findByEstado(2).get(0);
         List<Calificacion> calificaciones = competidor.getCalificaciones();
         for(Calificacion c : calificaciones){
@@ -134,6 +126,15 @@ public class EventoController {
         } catch (Exception e) {
             return(maper.writeValueAsString(new MensajeReponse(2,"Error al registrar Juez")) ); 
         }
+        Evento evento = repo.findByEstado(2).get();
+         List<Rutina> rutinas = evento.getRutinas();
+         Rutina rutina = null;
+         for(Rutina r : rutinas){
+             if(r.getEstado() == 2){
+                 rutina = r;
+                 break;
+             }
+         }
         template.convertAndSend("/call/message", evento);
         RegistroResponse res = new RegistroResponse();
         res.setCalificacion(calificacion);
