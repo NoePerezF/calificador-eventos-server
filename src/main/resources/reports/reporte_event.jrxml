@@ -2,7 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_event" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="868819c0-2e1e-457b-84c5-82067f527855">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SyncroMx"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NO_DATA_ADAPTER"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -54,17 +54,10 @@
 		</conditionalStyle>
 	</style>
 	<subDataset name="tableDataset" uuid="771c5a04-11ad-411f-89c9-32c8dfcde913">
-		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SyncroMx"/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NO_DATA_ADAPTER"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<queryString language="SQL">
-			<![CDATA[select c.nombre as Nombre, j.tipo as Tipo,
-max(ca.calificacion) filter (where j.nombre  = 'Juez 1') as Juez1,
-max(ca.calificacion) filter (where j.nombre  = 'Juez 2') as Juez2,
-max(ca.calificacion) filter (where j.nombre  = 'Juez 3') as Juez3,
-max(ca.calificacion) filter (where j.nombre  = 'Juez 4') as Juez4,
-max(ca.calificacion) filter (where j.nombre  = 'Juez 5') as Juez5
-from  competidor as c
-inner join calificacion as ca on c.id = ca.competidor_id inner join juez as j on ca.juez_id = j.id group by j.tipo,c.nombre
-order by c.nombre, j.tipo]]>
+			<![CDATA[]]>
 		</queryString>
 		<field name="nombre" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="nombre"/>
