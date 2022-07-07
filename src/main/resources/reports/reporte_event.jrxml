@@ -101,12 +101,7 @@ order by c.nombre, j.tipo]]>
 		<![CDATA[]]>
 	</queryString>
 	<title>
-		<band height="136" splitType="Stretch">
-			<image>
-				<reportElement x="10" y="-20" width="150" height="136" uuid="d4a3a181-8c49-4fd0-b6b2-d3579eac8faf"/>
-				<imageExpression><![CDATA["C:/Users/metal/Downloads/logo SincroMX.png"]]></imageExpression>
-			</image>
-		</band>
+		<band height="136" splitType="Stretch"/>
 	</title>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
