@@ -241,7 +241,7 @@
 								<reportElement style="Detail" x="0" y="0" width="79" height="30" uuid="1bf8be23-79ab-4e01-9dca-6b9132c5255b"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="SansSerif" size="12"/>
+									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 							</textField>
@@ -266,7 +266,7 @@
 								<reportElement style="Detail" x="0" y="0" width="91" height="30" uuid="8b7c2372-bb8c-4591-997b-5a2f0b901570"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="SansSerif" size="12"/>
+									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{tipo} == 1 ? "Ejecucion" :
 $F{tipo} == 2 ?  "Impresion artistica" :
@@ -293,7 +293,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<reportElement style="Title" x="0" y="0" width="79" height="30" uuid="460ef516-ac5c-410b-812f-182e4c6b46a0"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="SansSerif" size="12"/>
+									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{juez1} == null ? "No calificó" : $F{juez1}]]></textFieldExpression>
 							</textField>
