@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +72,7 @@ public class EventoController {
         }
         
     @Autowired
-    private ApplicationContext applicationContext;
+    DataSource dataSource;
     
      @Value("classpath:reports/reporte_event.jasper")
     private Resource res;
@@ -318,7 +319,7 @@ public class EventoController {
         return(maper.writeValueAsString(new MensajeReponse(1,"Evento terminado co nexito")) );
     }
     @GetMapping(value = "/api/generar-reporte/{id}")
-    public byte[] generarReporte(@PathVariable("id") Long id) throws IOException, JRException{
+    public byte[] generarReporte(@PathVariable("id") Long id) throws IOException, JRException, SQLException{
         if(!repo.findById(id).isPresent()){
             return(null);
           
@@ -328,8 +329,9 @@ public class EventoController {
         lista.add(e);
         InputStream reportStream = res.getInputStream();
         Map<String, Object> map = new HashMap<>();
+        System.out.println(dataSource.getConnection().getCatalog());
         map.put("E_ID",id.intValue());
-        JasperPrint print = JasperFillManager.fillReport(reportStream,map,  DataSourceUtils.getConnection((DataSource)applicationContext.getBean("dataSource")));
+        JasperPrint print = JasperFillManager.fillReport(reportStream,map,dataSource.getConnection());
         return JasperExportManager.exportReportToPdf(print);        
     }
     
