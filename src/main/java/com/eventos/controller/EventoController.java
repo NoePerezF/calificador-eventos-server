@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -331,8 +332,9 @@ public class EventoController {
         Map<String, Object> map = new HashMap<>();
         System.out.println(dataSource.getConnection().getCatalog());
         map.put("E_ID",id.intValue());
-        JasperPrint print = JasperFillManager.fillReport(reportStream,map,dataSource.getConnection());
-        dataSource.getConnection().close();
+        Connection con = dataSource.getConnection();
+        JasperPrint print = JasperFillManager.fillReport(reportStream,map,con);
+        con.close();
         return JasperExportManager.exportReportToPdf(print);        
     }
     
