@@ -98,76 +98,14 @@ order by c.nombre, j.tipo]]>
 		</field>
 	</subDataset>
 	<queryString>
-		<![CDATA[	select e.nombre, r.nombre, c.nombre as Nombre, j.tipo as Tipo,
-	max(ca.calificacion) filter (where j.nombre  = 'Juez 1') as Juez1,
-	max(ca.calificacion) filter (where j.nombre  = 'Juez 2') as Juez2,
-	max(ca.calificacion) filter (where j.nombre  = 'Juez 3') as Juez3,
-	max(ca.calificacion) filter (where j.nombre  = 'Juez 4') as Juez4,
-	max(ca.calificacion) filter (where j.nombre  = 'Juez 5') as Juez5
-	from  evento as e inner join rutina as r on e.id = r.evento_id  inner join competidor as c on r.id = c.rutina_id 
-	inner join calificacion as ca on c.id = ca.competidor_id inner join juez as j on ca.juez_id = j.id group by j.tipo,c.nombre,r.nombre, e.nombre
-	order by c.nombre, j.tipo]]>
+		<![CDATA[]]>
 	</queryString>
-	<field name="nombre" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
-		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="evento"/>
-	</field>
-	<field name="COLUMN_2" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
-		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="rutina"/>
-	</field>
-	<field name="COLUMN_3" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
-		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="competidor"/>
-	</field>
-	<field name="tipo" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="tipo"/>
-		<property name="com.jaspersoft.studio.field.label" value="tipo"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="juez"/>
-	</field>
-	<field name="juez1" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.name" value="juez1"/>
-		<property name="com.jaspersoft.studio.field.label" value="juez1"/>
-	</field>
-	<field name="juez2" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.name" value="juez2"/>
-		<property name="com.jaspersoft.studio.field.label" value="juez2"/>
-	</field>
-	<field name="juez3" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.name" value="juez3"/>
-		<property name="com.jaspersoft.studio.field.label" value="juez3"/>
-	</field>
-	<field name="juez4" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.name" value="juez4"/>
-		<property name="com.jaspersoft.studio.field.label" value="juez4"/>
-	</field>
-	<field name="juez5" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.name" value="juez5"/>
-		<property name="com.jaspersoft.studio.field.label" value="juez5"/>
-	</field>
 	<title>
 		<band height="136" splitType="Stretch">
 			<image>
 				<reportElement x="10" y="-20" width="150" height="136" uuid="d4a3a181-8c49-4fd0-b6b2-d3579eac8faf"/>
 				<imageExpression><![CDATA["C:/Users/metal/Downloads/logo SincroMX.png"]]></imageExpression>
 			</image>
-			<textField>
-				<reportElement x="220" y="30" width="140" height="40" uuid="63203f42-c35f-4270-ac37-acae90a43acb"/>
-				<textElement textAlignment="Center">
-					<font size="26"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="220" y="70" width="150" height="30" uuid="23d0eec5-9667-499e-970a-f0849bb7230f"/>
-				<textElement textAlignment="Center">
-					<font size="20"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{COLUMN_2}]]></textFieldExpression>
-			</textField>
 		</band>
 	</title>
 	<pageFooter>
