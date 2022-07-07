@@ -330,7 +330,6 @@ public class EventoController {
         lista.add(e);
         InputStream reportStream = res.getInputStream();
         Map<String, Object> map = new HashMap<>();
-        System.out.println(dataSource.getConnection().getCatalog());
         map.put("E_ID",id.intValue());
         Connection con = dataSource.getConnection();
         JasperPrint print = JasperFillManager.fillReport(reportStream,map,con);
