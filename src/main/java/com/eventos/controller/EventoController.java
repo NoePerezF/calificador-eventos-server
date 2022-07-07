@@ -16,12 +16,23 @@ import com.eventos.repository.RutinaRepository;
 import com.eventos.util.RegistroResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,6 +64,8 @@ public class EventoController {
         public EventoController(SimpMessagingTemplate template) {
             this.template = template;
         }
+     @Value("classpath:reports/reporte_event.jasper")
+    private Resource res;
     
     @GetMapping("/api/ping")
     public String ping() throws JsonProcessingException{
@@ -133,6 +146,7 @@ public class EventoController {
              }
          }
             calificacion = repoCalificacion.save(calificacion);
+            
             template.convertAndSend("/call/message", evento);
         } catch (Exception e) {
             return(maper.writeValueAsString(new MensajeReponse(2,"Error al registrar Juez")) ); 
@@ -293,6 +307,20 @@ public class EventoController {
             }
         } 
         return(maper.writeValueAsString(new MensajeReponse(1,"Evento terminado co nexito")) );
+    }
+    @GetMapping(value = "/api/generar-reporte/{id}")
+    public byte[] generarReporte(@PathVariable("id") Long id) throws IOException, JRException{
+        if(!repo.findById(id).isPresent()){
+            return(null);
+          
+        }
+        Evento e = repo.findById(id).get();  
+        List<Evento> lista = new ArrayList<>();
+        lista.add(e);
+        JRDataSource ds = new JRBeanCollectionDataSource(lista);
+        InputStream reportStream = res.getInputStream();
+        JasperPrint print = JasperFillManager.fillReport(reportStream,null, ds);
+        return JasperExportManager.exportReportToPdf(print);        
     }
     
 }
