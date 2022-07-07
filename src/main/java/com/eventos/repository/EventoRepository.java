@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface EventoRepository extends JpaRepository<Evento, Long>{
     Optional<Evento> findByEstado(int estado);
     
-    @Query(value ="select e.nombre, r.nombre, c.nombre as Nombre, j.tipo as Tipo,"+
+    @Query(value ="select e.nombre as nombre_evento, r.nombre as nombre_rutina, c.nombre as Nombre, j.tipo as Tipo,"+
         "max(ca.calificacion) filter (where j.nombre  = 'Juez 1') as Juez1, "+
 	"max(ca.calificacion) filter (where j.nombre  = 'Juez 2') as Juez2,"+
 	"max(ca.calificacion) filter (where j.nombre  = 'Juez 3') as Juez3,"+
