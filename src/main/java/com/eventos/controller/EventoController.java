@@ -317,7 +317,7 @@ public class EventoController {
         Evento e = repo.findById(id).get();  
         List<Evento> lista = new ArrayList<>();
         lista.add(e);
-        JRDataSource ds = new JRBeanCollectionDataSource(lista);
+        JRDataSource ds = new JRBeanCollectionDataSource(repo.findCustomEvento(id));
         InputStream reportStream = res.getInputStream();
         JasperPrint print = JasperFillManager.fillReport(reportStream,null, ds);
         return JasperExportManager.exportReportToPdf(print);        
