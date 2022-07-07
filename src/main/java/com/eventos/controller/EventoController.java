@@ -332,6 +332,7 @@ public class EventoController {
         System.out.println(dataSource.getConnection().getCatalog());
         map.put("E_ID",id.intValue());
         JasperPrint print = JasperFillManager.fillReport(reportStream,map,dataSource.getConnection());
+        dataSource.getConnection().close();
         return JasperExportManager.exportReportToPdf(print);        
     }
     
