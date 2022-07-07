@@ -110,21 +110,21 @@ order by c.nombre, j.tipo]]>
 				<textField evaluationTime="Report">
 					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="c6c05541-d642-485d-8bdb-cab31d35d221"/>
 					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font fontName="SansSerif" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="cbd3293d-23a4-436e-ac43-493d867d2b16"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font fontName="SansSerif" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 				</textField>
 				<textField pattern="EEEEE dd MMMMM yyyy">
 					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="3a6deb2b-90af-40e2-b90d-d18cb599e55a"/>
 					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font fontName="SansSerif" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
@@ -152,7 +152,7 @@ order by c.nombre, j.tipo]]>
 								<reportElement key="" style="SubTitle" x="0" y="0" width="79" height="30" forecolor="#736343" uuid="da3f13cb-1b9e-47fb-9ae9-b4b854479305"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="SansSerif" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Orden]]></text>
 							</staticText>
@@ -163,7 +163,7 @@ order by c.nombre, j.tipo]]>
 								<reportElement style="Detail" x="0" y="0" width="79" height="30" uuid="1bf8be23-79ab-4e01-9dca-6b9132c5255b"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="12"/>
+									<font fontName="SansSerif" size="12"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 							</textField>
@@ -177,7 +177,7 @@ order by c.nombre, j.tipo]]>
 								<reportElement key="" style="SubTitle" x="0" y="0" width="91" height="30" forecolor="#736343" uuid="c7c9d733-d49f-4127-a0fb-0e08cf606996"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="SansSerif" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Categoria]]></text>
 							</staticText>
@@ -188,7 +188,7 @@ order by c.nombre, j.tipo]]>
 								<reportElement style="Detail" x="0" y="0" width="91" height="30" uuid="8b7c2372-bb8c-4591-997b-5a2f0b901570"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="12"/>
+									<font fontName="SansSerif" size="12"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{tipo} == 1 ? "Ejecucion" :
 $F{tipo} == 2 ?  "Impresion artistica" :
@@ -204,7 +204,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<reportElement key="" style="SubTitle" x="0" y="0" width="79" height="30" forecolor="#736343" uuid="46f6e131-b50f-4dbb-84c1-d869a2c2a211"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="SansSerif" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Juez 1]]></text>
 							</staticText>
@@ -215,7 +215,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<reportElement style="Title" x="0" y="0" width="79" height="30" uuid="460ef516-ac5c-410b-812f-182e4c6b46a0"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="12"/>
+									<font fontName="SansSerif" size="12"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{juez1} == null ? "No calificó" : $F{juez1}
 ]]></textFieldExpression>
@@ -230,7 +230,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<reportElement key="" style="SubTitle" x="0" y="0" width="79" height="30" forecolor="#736343" uuid="a67a3743-acdc-4ed6-805c-d9a0ef6c3918"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="SansSerif" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Juez 2]]></text>
 							</staticText>
@@ -241,7 +241,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<reportElement style="Detail" x="0" y="0" width="79" height="30" uuid="6d53eed3-b67c-4aa1-bf4e-768b75890bae"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="12" isBold="true"/>
+									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{juez2} == null ? "No calificó" : $F{juez2}]]></textFieldExpression>
 							</textField>
@@ -255,7 +255,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<reportElement key="" style="SubTitle" x="0" y="0" width="79" height="30" forecolor="#736343" uuid="1d18483c-f0b9-4009-af69-8a16809cbdaf"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="SansSerif" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Juez 3]]></text>
 							</staticText>
@@ -266,7 +266,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<reportElement style="Detail" x="0" y="0" width="79" height="30" uuid="09c4640f-e675-4971-9dc1-96f58007aae7"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="12" isBold="true"/>
+									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{juez3} == null ? "No calificó" : $F{juez3}]]></textFieldExpression>
 							</textField>
@@ -280,7 +280,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<reportElement key="" style="SubTitle" x="0" y="0" width="79" height="30" forecolor="#736343" uuid="8da19a03-6bdd-491c-88b5-07cb32d288fc"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="SansSerif" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Juez 4]]></text>
 							</staticText>
@@ -291,7 +291,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<reportElement style="Detail" x="0" y="0" width="79" height="30" uuid="de1912a2-fa80-4208-9ab5-57c4757dae26"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="12" isBold="true"/>
+									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{juez4} == null ? "No calificó" : $F{juez4}]]></textFieldExpression>
 							</textField>
@@ -305,7 +305,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<reportElement key="" style="SubTitle" x="0" y="0" width="79" height="30" forecolor="#736343" uuid="653852b2-3704-411f-8924-188d53248222"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="SansSerif" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Juez 5]]></text>
 							</staticText>
@@ -316,7 +316,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<reportElement style="Detail" x="0" y="0" width="79" height="30" uuid="422c0b00-7149-4a89-bfb1-3379face37a1"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
-									<font fontName="Arial" size="12" isBold="true"/>
+									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{juez5} == null ? "No calificó" : $F{juez5}]]></textFieldExpression>
 							</textField>
