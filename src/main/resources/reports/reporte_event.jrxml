@@ -295,7 +295,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<textElement textAlignment="Center">
 									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{juez1} == null ? "No calificó" : $F{juez1}]]></textFieldExpression>
+								<textFieldExpression><![CDATA["1"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -320,7 +320,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<textElement textAlignment="Center">
 									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{juez2} == null ? "No calificó" : $F{juez2}]]></textFieldExpression>
+								<textFieldExpression><![CDATA["1"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -345,7 +345,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<textElement textAlignment="Center">
 									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{juez3} == null ? "No calificó" : $F{juez3}]]></textFieldExpression>
+								<textFieldExpression><![CDATA["1"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -370,7 +370,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<textElement textAlignment="Center">
 									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{juez4} == null ? "No calificó" : $F{juez4}]]></textFieldExpression>
+								<textFieldExpression><![CDATA["1"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -395,7 +395,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<textElement textAlignment="Center">
 									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{juez5} == null ? "No calificó" : $F{juez5}]]></textFieldExpression>
+								<textFieldExpression><![CDATA["1"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
