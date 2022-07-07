@@ -111,11 +111,75 @@
 			<property name="com.jaspersoft.studio.field.label" value="juez5"/>
 		</field>
 	</subDataset>
+	<parameter name="E_ID" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[]]>
+		<![CDATA[select e.nombre as nombre_evento, r.nombre as nombre_rutina, c.nombre as Nombre, j.tipo as Tipo,
+	max(ca.calificacion) filter (where j.nombre  = 'Juez 1') as Juez1,
+	max(ca.calificacion) filter (where j.nombre  = 'Juez 2') as Juez2,
+	max(ca.calificacion) filter (where j.nombre  = 'Juez 3') as Juez3,
+	max(ca.calificacion) filter (where j.nombre  = 'Juez 4') as Juez4,
+	max(ca.calificacion) filter (where j.nombre  = 'Juez 5') as Juez5
+	from  evento as e inner join rutina as r on e.id = r.evento_id  inner join competidor as c on r.id = c.rutina_id 
+	inner join calificacion as ca on c.id = ca.competidor_id inner join juez as j on ca.juez_id = j.id where e.id = $P{E_ID} group by j.tipo,c.nombre,r.nombre, e.nombre
+	order by c.nombre, j.tipo]]>
 	</queryString>
+	<field name="nombre_evento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_evento"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_evento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="evento"/>
+	</field>
+	<field name="nombre_rutina" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre_rutina"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre_rutina"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="rutina"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="competidor"/>
+	</field>
+	<field name="tipo" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="tipo"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="juez"/>
+	</field>
+	<field name="juez1" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="juez1"/>
+		<property name="com.jaspersoft.studio.field.label" value="juez1"/>
+	</field>
+	<field name="juez2" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="juez2"/>
+		<property name="com.jaspersoft.studio.field.label" value="juez2"/>
+	</field>
+	<field name="juez3" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="juez3"/>
+		<property name="com.jaspersoft.studio.field.label" value="juez3"/>
+	</field>
+	<field name="juez4" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="juez4"/>
+		<property name="com.jaspersoft.studio.field.label" value="juez4"/>
+	</field>
+	<field name="juez5" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="juez5"/>
+		<property name="com.jaspersoft.studio.field.label" value="juez5"/>
+	</field>
 	<title>
-		<band height="136" splitType="Stretch"/>
+		<band height="136" splitType="Stretch">
+			<textField>
+				<reportElement x="175" y="30" width="230" height="40" uuid="9ba85b77-59cc-4bdf-a658-b5a7775bdebd"/>
+				<textElement textAlignment="Center">
+					<font size="26"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_evento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="198" y="80" width="172" height="40" uuid="587524fd-32e7-40fe-8f45-991ac0fa4130"/>
+				<textElement textAlignment="Center">
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_rutina}]]></textFieldExpression>
+			</textField>
+		</band>
 	</title>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
@@ -231,8 +295,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<textElement textAlignment="Center">
 									<font fontName="SansSerif" size="12"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{juez1} == null ? "No calificó" : $F{juez1}
-]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{juez1} == null ? "No calificó" : $F{juez1}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
