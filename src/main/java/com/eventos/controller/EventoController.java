@@ -19,7 +19,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.sql.DataSource;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -28,7 +31,9 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,6 +69,10 @@ public class EventoController {
         public EventoController(SimpMessagingTemplate template) {
             this.template = template;
         }
+        
+    @Autowired
+    private ApplicationContext applicationContext;
+    
      @Value("classpath:reports/reporte_event.jasper")
     private Resource res;
     
@@ -317,9 +326,10 @@ public class EventoController {
         Evento e = repo.findById(id).get();  
         List<Evento> lista = new ArrayList<>();
         lista.add(e);
-        JRDataSource ds = new JRBeanCollectionDataSource(repo.findCustomEvento(id));
         InputStream reportStream = res.getInputStream();
-        JasperPrint print = JasperFillManager.fillReport(reportStream,null, ds);
+        Map<String, Object> map = new HashMap<>();
+        map.put("E_ID",id.intValue());
+        JasperPrint print = JasperFillManager.fillReport(reportStream,map,  DataSourceUtils.getConnection((DataSource)applicationContext.getBean("dataSource")));
         return JasperExportManager.exportReportToPdf(print);        
     }
     
