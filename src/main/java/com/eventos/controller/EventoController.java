@@ -35,6 +35,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -319,8 +323,8 @@ public class EventoController {
         } 
         return(maper.writeValueAsString(new MensajeReponse(1,"Evento terminado co nexito")) );
     }
-    @GetMapping(value = "/api/generar-reporte/{id}")
-    public byte[] generarReporte(@PathVariable("id") Long id) throws IOException, JRException, SQLException{
+    @GetMapping(value = "/api/generar-reporte/{id}",produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<byte[]> generarReporte(@PathVariable("id") Long id) throws IOException, JRException, SQLException{
         if(!repo.findById(id).isPresent()){
             return(null);
           
@@ -334,7 +338,13 @@ public class EventoController {
         Connection con = dataSource.getConnection();
         JasperPrint print = JasperFillManager.fillReport(reportStream,map,con);
         con.close();
-        return JasperExportManager.exportReportToPdf(print);        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        String filename = "output.pdf";
+        //headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        headers.add("Content-Disposition", "inline; filename=" + filename);
+        return new ResponseEntity<>(JasperExportManager.exportReportToPdf(print), headers, HttpStatus.OK);        
     }
     
 }
