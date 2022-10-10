@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.19.1.final using JasperReports Library version 6.19.1-867c00bf88cd4d784d404379d6c05e1b419e8a4c  -->
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_event" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="868819c0-2e1e-457b-84c5-82067f527855">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SyncroMx"/>
@@ -290,12 +290,12 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 						<jr:columnFooter style="Table_CH" height="30"/>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement style="Title" x="0" y="0" width="79" height="30" uuid="460ef516-ac5c-410b-812f-182e4c6b46a0"/>
+								<reportElement style="Detail" x="0" y="0" width="79" height="30" uuid="460ef516-ac5c-410b-812f-182e4c6b46a0"/>
 								<box leftPadding="2"/>
 								<textElement textAlignment="Center">
 									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA["1"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{juez1}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -320,7 +320,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<textElement textAlignment="Center">
 									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA["1"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{juez2}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -345,7 +345,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<textElement textAlignment="Center">
 									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA["1"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{juez3}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -370,7 +370,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<textElement textAlignment="Center">
 									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA["1"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{juez4}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -395,7 +395,7 @@ $F{tipo} == 3 ? "Dificultad" : "Error"]]></textFieldExpression>
 								<textElement textAlignment="Center">
 									<font fontName="SansSerif" size="12" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA["1"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{juez5}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
