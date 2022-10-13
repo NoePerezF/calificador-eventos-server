@@ -328,10 +328,6 @@ public class EventoController {
     }
     @GetMapping(value = "/api/generar-reporte/{id}",produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> generarReporte(@PathVariable("id") Long id) throws IOException, JRException, SQLException{
-        if(!repo.findById(id).isPresent()){
-            return(null);
-          
-        }
         Rutina r = repoRutina.findById(id).get();
         List<CompetidorVo> listVo = new ArrayList<>();
             for(Competidor c : r.getCompetidores()){
