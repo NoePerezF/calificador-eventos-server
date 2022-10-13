@@ -44,6 +44,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -437,5 +438,9 @@ public class EventoController {
         headers.add("Content-Disposition", "inline; filename=" + filename);
         return new ResponseEntity<>(JasperExportManager.exportReportToPdf(print), headers, HttpStatus.OK);        
     }
-    
+    @DeleteMapping("/api/delete-evento/{id}")
+    public ResponseEntity<?> deleteEvento(@PathVariable("id") Long id){
+        repo.delete(repo.findById(id).get());
+        return new ResponseEntity<>("",HttpStatus.OK);
+    }
 }
