@@ -443,4 +443,33 @@ public class EventoController {
         repo.delete(repo.findById(id).get());
         return new ResponseEntity<>("",HttpStatus.OK);
     }
+    @GetMapping("/seleccionar-rutina/{id1}/{id2}")
+    public ResponseEntity<?> selectRutina(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2){
+        Rutina r1 = repoRutina.findById(id1).get();
+        for(Competidor c : r1.getCompetidores()){
+            c.setEstado(1);
+        }
+        r1.setEstado(1);
+        repoRutina.save(r1);
+        
+        r1 = repoRutina.findById(id2).get();
+        r1.getCompetidores().get(0).setEstado(2);
+        r1.setEstado(2);
+        repoRutina.save(r1);
+        
+        return new ResponseEntity<>("",HttpStatus.OK);
+    }
+    
+    @GetMapping("/seleccionar-competidor/{id1}/{id2}")
+    public ResponseEntity<?> selectCompetidor(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2){
+        Competidor c = repoCompetidos.findById(id1).get();
+        c.setEstado(1);
+        repoCompetidos.save(c);
+        
+        c = repoCompetidos.findById(id2).get();
+        c.setEstado(2);
+        repoCompetidos.save(c);
+        
+        return new ResponseEntity<>("",HttpStatus.OK);
+    }
 }
