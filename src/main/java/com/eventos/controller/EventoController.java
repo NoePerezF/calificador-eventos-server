@@ -332,9 +332,8 @@ public class EventoController {
             return(null);
           
         }
-        Evento e = repo.findById(id).get();  
+        Rutina r = repoRutina.findById(id).get();
         List<CompetidorVo> listVo = new ArrayList<>();
-        for(Rutina r : e.getRutinas()){
             for(Competidor c : r.getCompetidores()){
                 CompetidorVo cvo = new CompetidorVo();
                 cvo.setEvento(r.getNombre());
@@ -415,9 +414,9 @@ public class EventoController {
                 listVo.add(cvo2);
                 listVo.add(cvo3);
             }
-        }
+ 
         EventoVo evo = new EventoVo();
-        evo.setEvento(e.getNombre());
+        evo.setEvento(r.getEvento().getNombre());
         evo.setCompetidores(listVo);
         List<EventoVo> lista = new ArrayList<>();
         lista.add(evo);
