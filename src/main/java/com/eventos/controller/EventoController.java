@@ -3,7 +3,9 @@ package com.eventos.controller;
 
 import com.eventos.domain.Calificacion;
 import com.eventos.domain.Competidor;
+import com.eventos.domain.CompetidorVo;
 import com.eventos.domain.Evento;
+import com.eventos.domain.EventoVo;
 
 import com.eventos.domain.Juez;
 import com.eventos.domain.Rutina;
@@ -330,14 +332,103 @@ public class EventoController {
           
         }
         Evento e = repo.findById(id).get();  
-        List<Evento> lista = new ArrayList<>();
-        lista.add(e);
+        List<CompetidorVo> listVo = new ArrayList<>();
+        for(Rutina r : e.getRutinas()){
+            for(Competidor c : r.getCompetidores()){
+                CompetidorVo cvo = new CompetidorVo();
+                cvo.setEvento(r.getNombre());
+                cvo.setOrden(c.getNombre());
+                CompetidorVo cvo2 = new CompetidorVo();
+                cvo2.setEvento(r.getNombre());
+                cvo2.setOrden(c.getNombre());
+                CompetidorVo cvo3 = new CompetidorVo();
+                cvo3.setEvento(r.getNombre());
+                cvo3.setOrden(c.getNombre());
+                cvo.setTipoJuez("EJEC");
+                cvo2.setTipoJuez("IMP ART");
+                cvo3.setTipoJuez("DIF");
+                for(Calificacion ca : c.getCalificaciones()){
+                    switch (ca.getJuez().getTipo()) {
+                        case 1:
+                            switch (ca.getJuez().getNumero()) {
+                        case 1:
+                            cvo.setJuez1(String.valueOf(ca.getCalificacion()));
+                            break;
+                        case 2:
+                            cvo.setJuez2(String.valueOf(ca.getCalificacion()));
+                            break;
+                        case 3:
+                            cvo.setJuez3(String.valueOf(ca.getCalificacion()));
+                            break;
+                        case 4:
+                            cvo.setJuez4(String.valueOf(ca.getCalificacion()));
+                            break;
+                        case 5:
+                            cvo.setJuez5(String.valueOf(ca.getCalificacion()));
+                            break;
+                    }
+                            break;
+                        case 2:
+                            switch (ca.getJuez().getNumero()) {
+                        case 1:
+                            cvo2.setJuez1(String.valueOf(ca.getCalificacion()));
+                            break;
+                        case 2:
+                            cvo2.setJuez2(String.valueOf(ca.getCalificacion()));
+                            break;
+                        case 3:
+                            cvo2.setJuez3(String.valueOf(ca.getCalificacion()));
+                            break;
+                        case 4:
+                            cvo2.setJuez4(String.valueOf(ca.getCalificacion()));
+                            break;
+                        case 5:
+                            cvo2.setJuez5(String.valueOf(ca.getCalificacion()));
+                            break;
+                    }
+                            break;
+                        case 3:
+                            switch (ca.getJuez().getNumero()) {
+                        case 1:
+                            cvo3.setJuez1(String.valueOf(ca.getCalificacion()));
+                            break;
+                        case 2:
+                            cvo3.setJuez2(String.valueOf(ca.getCalificacion()));
+                            break;
+                        case 3:
+                            cvo3.setJuez3(String.valueOf(ca.getCalificacion()));
+                            break;
+                        case 4:
+                            cvo3.setJuez4(String.valueOf(ca.getCalificacion()));
+                            break;
+                        case 5:
+                            cvo3.setJuez5(String.valueOf(ca.getCalificacion()));
+                            break;
+                    }
+                            break;
+                    }
+                    
+                    
+                }
+                listVo.add(cvo);
+                listVo.add(cvo2);
+                listVo.add(cvo3);
+            }
+        }
+        EventoVo evo = new EventoVo();
+        evo.setEvento(e.getNombre());
+        evo.setCompetidores(listVo);
+        List<EventoVo> lista = new ArrayList<>();
+        lista.add(evo);
+       JRDataSource ds = new JRBeanCollectionDataSource(lista);
+       
+       
         InputStream reportStream = res.getInputStream();
         Map<String, Object> map = new HashMap<>();
-        map.put("E_ID",id.intValue());
-        Connection con = dataSource.getConnection();
-        JasperPrint print = JasperFillManager.fillReport(reportStream,map,con);
-        con.close();
+        map.put("datasource", ds);
+       
+        JasperPrint print = JasperFillManager.fillReport(reportStream,map,ds);
+ 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         String filename = "output.pdf";
